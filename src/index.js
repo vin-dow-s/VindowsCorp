@@ -10,10 +10,31 @@ import Freelances from './pages/Freelances'
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyle = createGlobalStyle`
+    html, body {
+        scrollbar-width: thin;
+        scrollbar-color: #5843E4 transparent;
+
+        &::-webkit-scrollbar {
+            width: 5px;
+            border-radius: 10px;
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 10px;
+            background-color: #5843E4;
+        }
+    }
+
     * {
         font-family: 'Trebuchet MS', Helvetica, sans-serif;
+    }
+
+    /*
+    body {
         overflow-y: hidden;
     }
+    */
 `
 
 ReactDOM.render(

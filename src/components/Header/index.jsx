@@ -9,6 +9,7 @@ const NavContainer = styled.nav`
     justify-content: space-between;
     align-items: center;
     padding: 15px;
+    padding-right: 30px;
 `
 
 const MainLogo = styled.img`
