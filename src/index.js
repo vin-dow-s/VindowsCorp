@@ -7,48 +7,30 @@ import Header from './components/Header'
 import Error from './components/Error'
 import Results from './pages/Results'
 import Freelances from './pages/Freelances'
-import { createGlobalStyle } from 'styled-components'
-
-const GlobalStyle = createGlobalStyle`
-    html, body {
-        scrollbar-width: thin;
-        scrollbar-color: #5843E4 transparent;
-
-        &::-webkit-scrollbar {
-            width: 5px;
-            border-radius: 10px;
-            background-color: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            border-radius: 10px;
-            background-color: #5843E4;
-        }
-    }
-
-    * {
-        font-family: 'Trebuchet MS', Helvetica, sans-serif;
-    }
-
-    /*
-    body {
-        overflow-y: hidden;
-    }
-    */
-`
+import GlobalStyle from './utils/styles/GlobalStyle'
+import { SurveyProvider, ThemeProvider } from './utils/context'
+import Footer from './components/Footer'
 
 ReactDOM.render(
     <React.StrictMode>
         <Router>
-            <GlobalStyle />
-            <Header />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/survey/:questionNumber" element={<Survey />} />
-                <Route path="/freelances" element={<Freelances />} />
-                <Route path="/results" element={<Results />} />
-                <Route path="*" element={<Error />} />
-            </Routes>
+            <ThemeProvider>
+                <SurveyProvider>
+                    <GlobalStyle />
+                    <Header />
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route
+                            path="/survey/:questionNumber"
+                            element={<Survey />}
+                        />
+                        <Route path="/freelances" element={<Freelances />} />
+                        <Route path="/results" element={<Results />} />
+                        <Route path="*" element={<Error />} />
+                    </Routes>
+                    <Footer />
+                </SurveyProvider>
+            </ThemeProvider>
         </Router>
     </React.StrictMode>,
     document.getElementById('root')

@@ -1,7 +1,8 @@
 import styled from 'styled-components'
-import colors from '../../styles/colors'
-import { StyledLink } from '../../styles/links'
+import colors from '../../utils/styles/colors'
+import { StyledLink } from '../../utils/styles/links'
 import HomeIllustration from '../../assets/home-illustration.svg'
+import { useTheme } from '../../utils/hooks'
 
 const HomeWrapper = styled.div`
     display: flex;
@@ -14,7 +15,8 @@ const HomeContainer = styled.div`
     margin: 30px;
     padding: 60px 90px;
     max-width: 2000px;
-    background-color: ${colors.backgroundLight};
+    background-color: ${({ theme }) =>
+        theme === 'light' ? colors.backgroundLight : colors.backgroundDark};
 `
 
 const LeftCol = styled.div`
@@ -34,7 +36,7 @@ const StyledTitle = styled.h1`
     padding-bottom: 30px;
     max-width: 350px;
     line-height: 50px;
-    color: #434655;
+    color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
 `
 
 const Illustration = styled.img`
@@ -43,11 +45,12 @@ const Illustration = styled.img`
 `
 
 function Home() {
+    const { theme } = useTheme()
     return (
         <HomeWrapper>
-            <HomeContainer>
+            <HomeContainer theme={theme}>
                 <LeftCol>
-                    <StyledTitle>
+                    <StyledTitle theme={theme}>
                         Repérez vos besoins, on s'occupe du reste, avec les
                         meilleurs talents.
                     </StyledTitle>

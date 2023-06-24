@@ -1,15 +1,16 @@
 import DefaultPicture from '../../assets/profile.png'
 import Card from '../../components/Card'
 import styled from 'styled-components'
-import colors from '../../styles/colors'
-import { Loader } from '../../styles/links'
-import { useState, useEffect } from 'react'
+import colors from '../../utils/styles/colors'
+import { Loader } from '../../utils/styles/links'
+import { useFetch, useTheme } from '../../utils/hooks'
 
 const PageTitle = styled.h1`
     text-align: center;
     padding-bottom: 20px;
     font-size: 30px;
     color: black;
+    color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
 `
 
 const PageSubtitle = styled.h2`
@@ -18,6 +19,7 @@ const PageSubtitle = styled.h2`
     font-size: 20px;
     font-weight: 300;
     color: ${colors.secondary};
+    color: ${({ theme }) => (theme === 'light' ? '#000000' : '#ffffff')};
 `
 
 const LoaderWrapper = styled.div`
@@ -47,41 +49,29 @@ const CardsContainer = styled.div`
 `
 
 function Freelances() {
-    const [freelancersList, setFreelancersList] = useState([])
-    const [isDataLoading, setDataLoading] = useState(false)
-    const [error, setError] = useState(null)
-
-    useEffect(() => {
-        async function fetchFreelances() {
-            setDataLoading(true)
-            try {
-                const response = await fetch(`http://localhost:8000/freelances`)
-                const { freelancersList } = await response.json()
-                setFreelancersList(freelancersList)
-            } catch (err) {
-                console.log(err)
-                setError(true)
-            } finally {
-                setDataLoading(false)
-                //document.body.style.overflowY = 'auto' // Rétablit l'affichage de la barre de défilement
-            }
-        }
-        fetchFreelances()
-    }, [])
+    const { theme } = useTheme()
+    const { data, isLoading, error } = useFetch(
+        'http://localhost:8000/freelances'
+    )
+    const freelancersList = data?.freelancersList
 
     if (error) {
-        return <span>Oups... Il y a eu un problème...</span>
+        return (
+            <LoaderWrapper>
+                <span>Oups... Il y a eu un problème...</span>
+            </LoaderWrapper>
+        )
     }
 
     return (
         <div>
-            <PageTitle>Trouvez votre prestataire</PageTitle>
-            <PageSubtitle>
+            <PageTitle theme={theme}>Trouvez votre prestataire</PageTitle>
+            <PageSubtitle theme={theme}>
                 Chez Shiny nous réunissons les meilleurs profils pour vous.
             </PageSubtitle>
-            {isDataLoading ? (
+            {isLoading ? (
                 <LoaderWrapper>
-                    <Loader />
+                    <Loader theme={theme} data-testid="loader" />
                 </LoaderWrapper>
             ) : (
                 <CardsContainer>

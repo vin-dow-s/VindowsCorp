@@ -1,5 +1,5 @@
 import { styled } from 'styled-components'
-import colors from '../../styles/colors'
+import colors from '../../utils/styles/colors'
 import errorIllustration from '../../assets/404.svg'
 
 const ErrorContainer = styled.div`
